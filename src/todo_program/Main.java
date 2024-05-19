@@ -18,17 +18,18 @@ public class Main {
 		int operation = 0;
 		int importance = 0;
 		int index = 0;
+		String title = null;
 		
 		while(true) {
 			
 			System.out.println("——————操作を入力してください。——————");
-			System.out.print("1/登録 2/重要度変更 3/削除 4/終了 > ");
+			System.out.print("1/登録 2/内容変更 3/削除 4/終了 > ");
 			operation = Integer.parseInt(br.readLine());
 			
 			if (operation == 1) {
 				System.out.println("新規Todoを作成します。");
 				System.out.print("Todo内容を入力してください > ");
-				String title = br.readLine();
+				title = br.readLine();
 				System.out.print("重要度を1～10(最大)で入力してください > ");
 				importance = Integer.parseInt(br.readLine());
 				
@@ -36,14 +37,16 @@ public class Main {
 				todolist.AddItem(title, importance);
 				
 			} else if (operation == 2) {
-				System.out.print("重要度を変更します。番号を入力してください。 0 ～ " + (todolist.todoitems.size() - 1) + " > ");
+				System.out.print("内容を変更します。番号を入力してください。 0 ～ " + (todolist.todoitems.size() - 1) + " > ");
 				index = Integer.parseInt(br.readLine());
+				System.out.print("Todo内容を再入力してください > ");
+				title = br.readLine();
 				System.out.print("重要度を再設定してください。 > ");
 				importance = Integer.parseInt(br.readLine());
 				
 				
 				// Todoリストの内容変更
-				todolist.ImportanceChange(index, importance);
+				todolist.ItemChange(index, title, importance);
 				
 			} else if (operation == 3) {
 				System.out.print("Todoを削除します。番号を入力してください。 0 ～ " + (todolist.todoitems.size() - 1) + " > ");

@@ -13,24 +13,46 @@ public class TodoList {
 	
 	public void AddItem(String title, int importance) {
 		TodoItem todoitem = new TodoItem(title, importance);
-		todoitems.add(todoitem);
+		this.todoitems.add(todoitem);
 	}
 	
-	public void ImportanceChange(int index, int importance) {
+	public void ItemChange(int index, String title, int importance) {
 		TodoItem changetodoitem = todoitems.get(index);
+		changetodoitem.setTitle(title);
 		changetodoitem.setImportance(importance);
 	}
 	
 	public void DeleteItem(int index) {
-		todoitems.remove(index);
+		this.todoitems.remove(index);
 	}
 	
 	public void getTodoList() {
-
-		for(TodoItem todoitem :todoitems) {
-			System.out.println(todoitem.getTitle() + "/ 重要度：" + todoitem.getImportance());
+		
+		int sort_todoitem_size = this.todoitems.size();
+		int index_num = 0;
+		
+		/* 既存todoitemの並び替え＆todoitemsへの追加
+		 * 拡張for文を使用するとConcurrentModificationException(オブジェクトの並行変更例外)が発生するので、
+		 * わざとfor文で処理を実施しています。
+		 */
+		for(int i = 10; i >= 0; i--) {
+			for(int todoitem_num = 0; todoitem_num < sort_todoitem_size; todoitem_num++) {
+				if(this.todoitems.get(todoitem_num).getImportance() == i) {
+					TodoItem sort_todoitem = new TodoItem(todoitems.get(todoitem_num).getTitle(),todoitems.get(todoitem_num).getImportance());
+					this.todoitems.add(sort_todoitem);
+				}
+			}
 		}
-
+		
+		// todoitemsからsort前のtodoitemを削除
+		for(int delete_index = sort_todoitem_size - 1; delete_index >= 0; delete_index--) {
+			this.todoitems.remove(delete_index);
+		}
+		
+		// sort後のtodoltemsの表示
+		for(TodoItem todoitem: this.todoitems) {
+			System.out.println(index_num + "…" + todoitem.getTitle() + "/ 重要度：" + todoitem.getImportance());
+			index_num++;
+		}
 	}
-
 }
