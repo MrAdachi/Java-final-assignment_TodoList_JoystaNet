@@ -11,15 +11,16 @@ public class TodoList {
 		this.todoitems = new ArrayList<TodoItem>();
 	}
 	
-	public void AddItem(String title, int importance) {
-		TodoItem todoitem = new TodoItem(title, importance);
+	public void AddItem(String title, int importance, boolean progress) {
+		TodoItem todoitem = new TodoItem(title, importance, progress);
 		this.todoitems.add(todoitem);
 	}
 	
-	public void ItemChange(int index, String title, int importance) {
+	public void ItemChange(int index, String title, int importance, boolean progress) {
 		TodoItem changetodoitem = todoitems.get(index);
 		changetodoitem.setTitle(title);
 		changetodoitem.setImportance(importance);
+		changetodoitem.setProgress(progress);
 	}
 	
 	public void DeleteItem(int index) {
@@ -38,7 +39,7 @@ public class TodoList {
 		for(int i = 10; i >= 0; i--) {
 			for(int todoitem_num = 0; todoitem_num < sort_todoitem_size; todoitem_num++) {
 				if(this.todoitems.get(todoitem_num).getImportance() == i) {
-					TodoItem sort_todoitem = new TodoItem(todoitems.get(todoitem_num).getTitle(),todoitems.get(todoitem_num).getImportance());
+					TodoItem sort_todoitem = new TodoItem(todoitems.get(todoitem_num).getTitle(),todoitems.get(todoitem_num).getImportance(),todoitems.get(todoitem_num).getProgress());
 					this.todoitems.add(sort_todoitem);
 				}
 			}
@@ -51,7 +52,12 @@ public class TodoList {
 		
 		// sort後のtodoltemsの表示
 		for(TodoItem todoitem: this.todoitems) {
-			System.out.println(index_num + "…" + todoitem.getTitle() + "/ 重要度：" + todoitem.getImportance());
+			
+			if(todoitem.getProgress() == true) {
+				System.out.println(index_num + "…" + todoitem.getTitle() + "/ 重要度：" + todoitem.getImportance() + "/ 進捗：完了");
+			} else {
+				System.out.println(index_num + "…" + todoitem.getTitle() + "/ 重要度：" + todoitem.getImportance() + "/ 進捗：未完了");
+			}
 			index_num++;
 		}
 	}
